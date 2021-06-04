@@ -13,7 +13,7 @@ public class Dial : MonoBehaviour
     [SerializeField]
     private Transform mesh;
 
-    public UnityEvent DialValueChanged;
+    public UnityEvent<float> DialValueChanged;
 
     private void OnTriggerEnter(Collider other)
     {
@@ -27,10 +27,11 @@ public class Dial : MonoBehaviour
         if (other.tag == "Player")
         {
             Vector3 dir = target.position - transform.position;
-            dir.y = 0;
-            Quaternion rot = Quaternion.LookRotation(dir);
+            dir = Vector3.ProjectOnPlane(dir, transform.up);
+            Quaternion rot = Quaternion.LookRotation(dir, transform.up);
             transform.rotation = rot;
-            DialValueChanged.Invoke();
+
+            DialValueChanged.Invoke(transform.eulerAngles.y);
         }
     }
     private void OnTriggerExit(Collider other)

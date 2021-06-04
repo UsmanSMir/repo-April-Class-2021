@@ -6,9 +6,10 @@ public class DimmerDial : MonoBehaviour
 {
     [SerializeField]
     private Light light;
-    public void AdjustLight()
+    public void AdjustLight(float y)
     {
-        light.intensity = transform.eulerAngles.y / 360;
+        light.intensity = y / 360;
+
         Debug.Log(transform.eulerAngles.y);
     }
 }
